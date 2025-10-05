@@ -1,0 +1,36 @@
+name: 🚀 Deploy Node App to Ubuntu Server
+
+on:
+  push:
+    branches: ["master"]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📦 Checkout source code
+        uses: actions/checkout@v4
+
+      - name: 📤 Copy project files to server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "."
+          target: "/app/testAppNode"
+
+      - name: 🔁 Restart Docker containers
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /app/testAppNode
+            echo "🛠 Pulling latest code..."
+            git pull || true
+            echo "🧹 Restarting Docker..."
+            sudo docker-compose down
+            sudo docker-compose up -d --build
+            echo "✅ Deployment complete!"
