@@ -2,7 +2,8 @@ name: 🚀 Deploy Node App to Ubuntu Server
 
 on:
   push:
-    branches: ["master"]
+    branches: ["master"]   # ถ้า repo ของนายใช้ main ให้เปลี่ยนเป็น "main"
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
