@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testappnode
+  labels:
+    app: testappnode
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testappnode
+  template:
+    metadata:
+      labels:
+        app: testappnode
+    spec:
+      containers:
+      - name: testappnode
+        image: champanuchit/testappnode:latest
+        ports:
+        - containerPort: 3000
