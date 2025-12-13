@@ -13,7 +13,8 @@ spec:
         app: testappnode
     spec:
       containers:
-        - name: app
+        - name: testappnode
           image: ghcr.io/champanuchit/testappnode:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
