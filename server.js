@@ -4,7 +4,7 @@ const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
-app.use(express.static('public')); // serve index.html และ dashboard.html 
+app.use(express.static('public'));
 
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
