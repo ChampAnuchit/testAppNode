@@ -12,6 +12,7 @@ spec:
     repoURL: https://github.com/ChampAnuchit/testAppNode
     targetRevision: master
     path: k8s
+    kustomize: {}
   destination:
     server: https://kubernetes.default.svc
     namespace: testappnode
@@ -22,3 +23,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+  
