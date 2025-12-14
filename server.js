@@ -7,17 +7,21 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// middleware
+// ===== Middleware =====
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
 
-// 👉 เข้า root ให้ไปหน้า login (index.html)
+// serve static files (HTML, CSS, JS)
+app.use(express.static(path.join(__dirname, 'public')));
+
+// ===== Routes =====
+
+// root → login page
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// 👉 API login
+// login API
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
 
@@ -34,7 +38,7 @@ app.post('/api/login', (req, res) => {
     });
 });
 
-// start server
+// ===== Start server =====
 app.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
 });
