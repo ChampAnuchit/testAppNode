@@ -1,0 +1,28 @@
+name: build-and-push
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read version
+        run: |
+          VERSION=$(node -p 'require("./package.json").version')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Login GHCR
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ChampAnuchit --password-stdin
+
+      - name: Build & Push
+        run: |
+          docker build -t ghcr.io/champanuchit/testappnode:${{ env.VERSION }} .
+          docker push ghcr.io/champanuchit/testappnode:${{ env.VERSION }}
